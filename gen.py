@@ -3,9 +3,9 @@ import numpy as np
 
 # Map production rules (current state -> next state)
 rules = {
-    (True, True, True) : True,
-    (True, True, False) : True,
-    (True, False, True) : True,
+    (True, True, True) : False,
+    (True, True, False) : False,
+    (True, False, True) : False,
     (True, False, False) : True,
     (False, True, True) : True,
     (False, True, False) : True,
@@ -28,7 +28,7 @@ def new_state(state):
     return ns
 
 # Number of epochs generated, this includes the initial state
-NUM_EPOCHS = 100
+NUM_EPOCHS = 400
 # Initial state
 cur_state = [False, False, True, False, False]
 # Create 2D array to store full generation history
