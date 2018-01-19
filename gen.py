@@ -28,7 +28,7 @@ def new_state(state):
     return ns
 
 # Number of epochs generated, this includes the initial state
-NUM_EPOCHS = 400
+NUM_EPOCHS = 200
 # Initial state
 cur_state = [False, False, True, False, False]
 # Create 2D array to store full generation history
