@@ -32,7 +32,7 @@ NUM_EPOCHS = 200
 # Initial state
 cur_state = [False, False, True, False, False]
 # Create 2D array to store full generation history
-states = np.zeros( (NUM_EPOCHS, len(cur_state) + NUM_EPOCHS*2), dtype=np.dtype('uint8') )
+states = np.zeros( (NUM_EPOCHS, len(cur_state) + NUM_EPOCHS*2) )
 
 for epoch in range(NUM_EPOCHS):
     # Record state into forever land
@@ -44,5 +44,5 @@ for epoch in range(NUM_EPOCHS):
     cur_state = new_state( cur_state )
 
 # Create bitmap image
-img = Image.fromarray(states, mode='L')
+img = Image.fromarray(states)
 img.show()
