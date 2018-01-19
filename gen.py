@@ -1,3 +1,6 @@
+from PIL import Image
+import numpy as np
+
 # Map production rules (current state -> next state)
 rules = {
     (True, True, True) : True,
@@ -24,11 +27,22 @@ def new_state(state):
 
     return ns
 
-# Number of rows to generate
-epochs = 10
+# Number of epochs generated, this includes the initial state
+NUM_EPOCHS = 100
+# Initial state
 cur_state = [False, False, True, False, False]
+# Create 2D array to store full generation history
+states = np.zeros( (NUM_EPOCHS, len(cur_state) + NUM_EPOCHS*2), dtype=np.dtype('uint8') )
 
-print (cur_state)
-for i in range(epochs):
-    cur_state = new_state( cur_state ) # Update
-    print (cur_state)
+for epoch in range(NUM_EPOCHS):
+    # Record state into forever land
+    for i in range(len(cur_state)):
+        # Translate cells to center image
+        states[epoch, i+(NUM_EPOCHS-epoch)] = 255 if cur_state[i] else 0
+
+    # Update
+    cur_state = new_state( cur_state )
+
+# Create bitmap image
+img = Image.fromarray(states, mode='L')
+img.show()
