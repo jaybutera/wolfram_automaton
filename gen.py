@@ -1,12 +1,25 @@
 from PIL import Image
 import numpy as np
+import compression
 
 # Map production rules (current state -> next state)
+'''
 rules = {
     (True, True, True) : False,
     (True, True, False) : False,
     (True, False, True) : False,
     (True, False, False) : True,
+    (False, True, True) : True,
+    (False, True, False) : True,
+    (False, False, True) : True,
+    (False, False, False) : False,
+}
+'''
+rules = {
+    (True, True, True) : False,
+    (True, True, False) : True,
+    (True, False, True) : True,
+    (True, False, False) : False,
     (False, True, True) : True,
     (False, True, False) : True,
     (False, False, True) : True,
@@ -27,22 +40,31 @@ def new_state(state):
 
     return ns
 
-# Number of epochs generated, this includes the initial state
-NUM_EPOCHS = 200
-# Initial state
-cur_state = [False, False, True, False, False]
-# Create 2D array to store full generation history
-states = np.zeros( (NUM_EPOCHS, len(cur_state) + NUM_EPOCHS*2) )
+# Simulate automata and return all states as a 2D array
+def run(num_epochs):
+    # Initial state
+    cur_state = [False, False, True, False, False]
+    # Create 2D array to store full generation history
+    states = np.zeros( (num_epochs, len(cur_state) + num_epochs*2) )
 
-for epoch in range(NUM_EPOCHS):
-    # Record state into forever land
-    for i in range(len(cur_state)):
-        # Translate cells to center image
-        states[epoch, i+(NUM_EPOCHS-epoch)] = 255 if cur_state[i] else 0
+    for epoch in range(num_epochs):
+        # Record state into forever land
+        for i in range(len(cur_state)):
+            # Translate cells to center image
+            states[epoch, i+(num_epochs-epoch)] = 255 if cur_state[i] else 0
 
-    # Update
-    cur_state = new_state( cur_state )
+        # Update
+        cur_state = new_state( cur_state )
 
-# Create bitmap image
-img = Image.fromarray(states)
-img.show()
+    return states
+
+if __name__ == '__main__':
+    # Number of epochs generated, this includes the initial state
+    num_epochs = 1500
+
+    # Simulate
+    states = run(num_epochs)
+
+    # Create bitmap image
+    img = Image.fromarray(states)
+    img.show()
