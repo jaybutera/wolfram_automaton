@@ -1,6 +1,5 @@
 from PIL import Image
 import numpy as np
-import compression
 
 # Map production rules (current state -> next state)
 '''
